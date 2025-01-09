@@ -2,8 +2,8 @@ EXEFILE = findimg
 OBJECTS = main.o findimg.o
 CCFMT = -m32
 NASMFMT = -f elf32
-CCOPT = 
-NASMOPT = -w+all
+CCOPT = -g -O0
+NASMOPT = -g -F dwarf -w+all
 
 .c.o:
 	cc $(CCFMT) $(CCOPT) -c $<
