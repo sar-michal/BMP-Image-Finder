@@ -1,5 +1,5 @@
 EXEFILE = findimg
-OBJECTS = findimg.o myfindimg.o
+OBJECTS = main.o findimg.o
 CCFMT = -m32
 NASMFMT = -f elf32
 CCOPT = 

@@ -1,0 +1,15 @@
+# Ignore object files and executable
+*.o
+findimg
+
+# Ignore list files
+*.lst
+
+# Ignore other temporary files
+*~
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore output files
+*.out
