@@ -9,62 +9,43 @@ int32_t findimg(void *img, uint32_t width, uint32_t height, uint32_t stride,
                 void* to_find, uint32_t to_find_width, uint32_t to_find_height, uint32_t to_find_stride,
                 uint32_t *x, uint32_t *y);
 
-uint32_t calculate_stride(uint32_t width) {
-
-    // Calculate raw bytes per row (ceil division)
-    uint32_t raw_bytes = (width + 7) / 8;
-    
-    // Calculate padding to next multiple of 4 bytes
-    uint32_t padding = (4 - (raw_bytes % 4)) % 4;
-    
-    // Total stride is raw bytes plus padding
-    uint32_t stride = raw_bytes + padding;
-    
-    return stride;
-}
 void *load_bmp(FILE *file, uint32_t *width, uint32_t *height, uint32_t *stride) {
-    // Seek to the width and height fields in the BMP header (offset 18)
+
     if (fseek(file, 18, SEEK_SET) != 0) {
         perror("fseek failed while seeking width and height");
         return NULL;
     }
 
-    // Read the width of the image
     if (fread(width, sizeof(uint32_t), 1, file) != 1) {
         perror("fread failed while reading width");
         return NULL;
     }
 
-    // Read the height of the image
     if (fread(height, sizeof(uint32_t), 1, file) != 1) {
         perror("fread failed while reading height");
         return NULL;
     }
 
-    // Calculate the stride (bytes per row) using the provided calculate_stride function
+    // Calculate stride
     int32_t raw_bytes = (*width + 7) / 8;
-    
-    // Calculate padding to next multiple of 4 bytes
     uint32_t padding = (4 - (raw_bytes % 4)) % 4;
-    
-    // Total stride is raw bytes plus padding
     *stride = raw_bytes + padding;
  
-    // Allocate memory for the pixel data (stride * height)
+    // Allocate memory for img data
     void *img = malloc((*stride) * (*height));
     if (!img) {
         perror("Memory allocation failed for image data");
         return NULL;
     }
 
-    // Seek to the start of the pixel data (offset 54 for standard BMP)
+    // Seek to the start of the bitmap data
     if (fseek(file, 54, SEEK_SET) != 0) {
         perror("fseek failed while seeking to pixel data");
         free(img);
         return NULL;
     }
 
-    // Read the pixel data into the allocated memory
+    // Read the bitmap into the allocated memory
     size_t items_read = fread(img, (*stride), (*height), file);
     if (items_read != (*height)) {
         perror("fread failed while reading pixel data");
@@ -94,6 +75,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     fclose(img_file);
+    uint8_t *img_bytes = (uint8_t *)img;
+    for(int i = 0; i < 600; ++i) {
+    printf("img[%d] = 0x%02X\n", i, img_bytes[i]);
+}
 
     // Load sub-image
     FILE *to_find_file = fopen(argv[2], "rb");
@@ -108,14 +93,18 @@ int main(int argc, char *argv[]) {
         free(img);
         return 1;
     }
+    uint8_t *to_find_bytes = (uint8_t *)to_find;
+    for(int i = 0; i < 64; ++i) {
+    printf("to_find[%d] = 0x%02X\n", i, to_find_bytes[i]);
+}
     fclose(to_find_file);
 
-/*     uint32_t x, y;
-    if(findimg(img, width, height, stride, to_find, to_find_width, to_find_height, to_find_stride &x, &y) == 0) {
+    uint32_t x, y;
+    if(findimg(img, width, height, stride, to_find, to_find_width, to_find_height, to_find_stride, &x, &y) == 0) {
         printf("Found at %d, %d\n", x, y);
     } else {
         printf("Not found\n");
-    } */
+    }
     printf("Main Image - Width: %u, Height: %u, Stride: %u\n", width, height, stride);
     printf("Sub Image - Width: %u, Height: %u, Stride: %u\n", to_find_width, to_find_height, to_find_stride);
     free(img);
