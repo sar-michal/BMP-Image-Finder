@@ -30,7 +30,7 @@ void *load_bmp(FILE *file, uint32_t *width, uint32_t *height, uint32_t *stride) 
     int32_t raw_bytes = (*width + 7) / 8;
     uint32_t padding = (4 - (raw_bytes % 4)) % 4;
     *stride = raw_bytes + padding;
- 
+
     // Allocate memory for img data
     void *img = malloc((*stride) * (*height));
     if (!img) {
@@ -38,8 +38,22 @@ void *load_bmp(FILE *file, uint32_t *width, uint32_t *height, uint32_t *stride) 
         return NULL;
     }
 
+    // Read the pixel data offset from the BMP file header (byte 10)
+    uint32_t data_offset;
+    if (fseek(file, 10, SEEK_SET) != 0) {
+        perror("fseek failed while seeking to pixel data offset");
+        free(img);
+        return NULL;
+    }
+
+    if (fread(&data_offset, sizeof(uint32_t), 1, file) != 1) {
+        perror("fread failed while reading pixel data offset");
+        free(img);
+        return NULL;
+    }
+
     // Seek to the start of the bitmap data
-    if (fseek(file, 146, SEEK_SET) != 0) {
+    if (fseek(file, data_offset, SEEK_SET) != 0) {
         perror("fseek failed while seeking to pixel data");
         free(img);
         return NULL;
