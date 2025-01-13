@@ -39,7 +39,7 @@ void *load_bmp(FILE *file, uint32_t *width, uint32_t *height, uint32_t *stride) 
     }
 
     // Seek to the start of the bitmap data
-    if (fseek(file, 54, SEEK_SET) != 0) {
+    if (fseek(file, 146, SEEK_SET) != 0) {
         perror("fseek failed while seeking to pixel data");
         free(img);
         return NULL;
@@ -75,10 +75,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     fclose(img_file);
-    uint8_t *img_bytes = (uint8_t *)img;
+/*     uint8_t *img_bytes = (uint8_t *)img;
     for(int i = 0; i < 600; ++i) {
     printf("img[%d] = 0x%02X\n", i, img_bytes[i]);
-}
+} */
 
     // Load sub-image
     FILE *to_find_file = fopen(argv[2], "rb");
@@ -93,11 +93,18 @@ int main(int argc, char *argv[]) {
         free(img);
         return 1;
     }
-    uint8_t *to_find_bytes = (uint8_t *)to_find;
+/*     uint8_t *to_find_bytes = (uint8_t *)to_find;
     for(int i = 0; i < 64; ++i) {
     printf("to_find[%d] = 0x%02X\n", i, to_find_bytes[i]);
-}
+} */
     fclose(to_find_file);
+
+    if(to_find_width > width || to_find_height > height) {
+        printf("Sub image is larger than main image\n");
+        free(img);
+        free(to_find);
+        return 1;
+    }
 
     uint32_t x, y;
     if(findimg(img, width, height, stride, to_find, to_find_width, to_find_height, to_find_stride, &x, &y) == 0) {
