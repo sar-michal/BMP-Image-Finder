@@ -5,7 +5,7 @@
 /*  in 1bpp .BMP image, find occurence of another 1bpp .BMP image. If
  there is at least one, set x and y to coordinates of the upper left corner of
  any one of the occurences and return 0. If there is none, return 1. */
-int32_t findimg(void *img, uint32_t width, uint32_t height, uint32_t stride,
+int32_t findimg64(void *img, uint32_t width, uint32_t height, uint32_t stride,
                 void* to_find, uint32_t to_find_width, uint32_t to_find_height, uint32_t to_find_stride,
                 uint32_t *x, uint32_t *y);
 
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
     }
 
     uint32_t x, y;
-    if(findimg(img, width, height, stride, to_find, to_find_width, to_find_height, to_find_stride, &x, &y) == 0) {
+    if(findimg64(img, width, height, stride, to_find, to_find_width, to_find_height, to_find_stride, &x, &y) == 0) {
         printf("Found at %d, %d\n", x, y);
     } else {
         printf("Not found\n");
