@@ -89,10 +89,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     fclose(img_file);
-/*     uint8_t *img_bytes = (uint8_t *)img;
-    for(int i = 0; i < 600; ++i) {
-    printf("img[%d] = 0x%02X\n", i, img_bytes[i]);
-} */
 
     // Load sub-image
     FILE *to_find_file = fopen(argv[2], "rb");

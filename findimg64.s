@@ -22,9 +22,9 @@ findimg64:
 
         xor     r13, r13
         mov	rax, rdi    ; rdi = void *img
-        mov	r10d, esi   ; r12d = uint32_t width
-        mov	r11d, edx   ; r11d = uint32_t height
-                                ; r10d = uint32_t stride
+        mov	r10d, esi   ; rsi = uint32_t width
+        mov	r11d, edx   ; rdx = uint32_t height
+                                ; rcx = uint32_t stride
                                 ; r8 = void* to_find
                                 ; r9 = uint32_t to_find_width
                                 ; [rbp+16] (+16) uint32_t to_find_height
