@@ -1,6 +1,7 @@
 # Ignore object files and executable
 *.o
 findimg
+findimg64
 
 # Ignore list files
 *.lst

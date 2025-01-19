@@ -119,8 +119,8 @@ int main(int argc, char *argv[]) {
     } else {
         printf("Not found\n");
     }
-    printf("Main Image - Width: %u, Height: %u, Stride: %u\n", width, height, stride);
-    printf("Sub Image - Width: %u, Height: %u, Stride: %u\n", to_find_width, to_find_height, to_find_stride);
+    printf("Main Image - Width: %u, Height: %u\n", width, height);
+    printf("Sub Image - Width: %u, Height: %u\n", to_find_width, to_find_height);
     free(img);
     free(to_find);
     return 0;
