@@ -32,6 +32,11 @@ Example usage:
 
 You can access the test images by providing their names, such as `test_pictures/tundraF.bmp` and `test_pictures/fox.bmp`.
 
+![Test Image](test_pictures/tundraF.bmp)
+Found at 1194, 693  
+Main Image - Width: 3000, Height: 2000  
+Sub Image - Width: 612, Height: 612
+
 ## Dependencies
 
 The project does not have any external dependencies beyond a standard C compiler and NASM assembler.
