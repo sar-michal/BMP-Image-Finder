@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is designed to find the occurrence of a 1bpp BMP image within another 1bpp BMP image. If the sub-image is found, the program outputs the coordinates of the upper left corner of any one of the occurrences. If the sub-image is not found, the program indicates that it was not found. This project was developed on a Linux Ubuntu system as a project for the Computer Architecture (ECOAR) course.
+This project is designed to find the occurrence of a 1bpp BMP image within another 1bpp BMP image. If the sub-image is found, the program outputs the coordinates of the upper left corner of any one of the occurrences. If the sub-image is not found, the program indicates that it was not found. It is made utilizing x86 assembly. This project was developed on a Linux Ubuntu system as a project for the Computer Architecture (ECOAR) course.
 
 ## Installation
 
